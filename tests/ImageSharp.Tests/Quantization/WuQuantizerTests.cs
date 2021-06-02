@@ -133,6 +133,33 @@ namespace SixLabors.ImageSharp.Tests.Quantization
             }
         }
 
+
+        //[Theory]
+        //[WithFile(TestImages.Png.Issue1583, PixelTypes.Rgba32)]
+        [Fact]
+        public void NewTest()
+        {
+            //using (Image<TPixel> image = provider.GetImage())
+            {
+                int w = 400;
+                int h = 400;
+                var gif = new Image<Rgba32>(w, h);
+
+                var oq = new SixLabors.ImageSharp.Processing.Processors.Quantization.OctreeQuantizer();
+                oq.Options.Dither = new SixLabors.ImageSharp.Processing.Processors.Dithering.OrderedDither();
+                SixLabors.ImageSharp.Formats.Gif.GifEncoder gifEncoder = new SixLabors.ImageSharp.Formats.Gif.GifEncoder
+                {
+                    Quantizer = oq
+                };
+
+                gif.SaveAsGif(@"C:\Users\dpen20000\imagesharp1583\630_1.gif");
+            }
+
+
+
+
+        }
+
         private static void TestScale(Func<byte, Rgba32> pixelBuilder)
         {
             using (var image = new Image<Rgba32>(1, 256))
